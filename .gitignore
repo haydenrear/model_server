@@ -1,0 +1,7 @@
+work/
+test_work/
+**/__pycache__/**
+*.pyc
+.git.bfg-report/*
+
+out/
