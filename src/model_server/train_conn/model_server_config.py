@@ -1,4 +1,4 @@
-from model_server.train_conn.huggingface_endpoints import HfEndpoint
+from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 from model_server.train_conn.server_config_props import ModelServerConfigProps
 from model_server.train_conn.server_runner import ServerRunnerProvider
 from python_di.configs.component_scan import component_scan

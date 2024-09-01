@@ -34,8 +34,7 @@ class ServerRunnerTest(unittest.TestCase):
 
     def test_server_runner_autowire(self):
         pass
-    def test_server_runner_autowire_2(self):
-        pass
+
 
 
 if __name__ == '__main__':

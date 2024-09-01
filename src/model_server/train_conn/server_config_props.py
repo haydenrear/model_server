@@ -10,8 +10,8 @@ from python_di.properties.configuration_properties_decorator import configuratio
 class HuggingfaceModelEndpoint(BaseModel):
     hf_model: str
     model_endpoint: str
-    pipeline: dict[str, str]
-    pipeline_kwargs: dict[str, str]
+    pipeline: dict[str, object]
+    pipeline_kwargs: dict[str, object]
 
 
 @configuration_properties(

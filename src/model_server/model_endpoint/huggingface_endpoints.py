@@ -65,5 +65,8 @@ class HfEndpoint(ModelEndpoint):
     def do_model(self, input_data: dict[str, str]):
         # TODO: pooling type - PCA? VAE? t-SNE?
         return {
-            'data': torch.mean(self.pipeline(input_data['prompt'], **self._hf.pipeline_kwargs, return_tensors='pt'))[0]
+            'data': torch.mean(
+                self.pipeline(input_data['prompt'], **self._hf.pipeline_kwargs, return_tensors='pt'),
+                dim=1
+            )[0].numpy().tolist()
         }

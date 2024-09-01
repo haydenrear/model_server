@@ -6,6 +6,7 @@ from http.server import SimpleHTTPRequestHandler
 from typing import Awaitable
 
 import injector
+from flask import Flask, request
 from flask import app
 from rsocket.frame_helpers import ensure_bytes
 from rsocket.helpers import create_response
@@ -15,16 +16,13 @@ from rsocket.routing.routing_request_handler import RoutingRequestHandler
 from rsocket.rsocket_server import RSocketServer
 from rsocket.transports.tcp import TransportTCP
 
+from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 from model_server.model_endpoint.model_endpoints import ModelEndpoint
-from model_server.train_conn.huggingface_endpoints import HfEndpoint
 from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint
 from python_di.configs.component import component
-from python_di.inject.profile_composite_injector.composite_injector import profile_scope
 from python_di.inject.profile_composite_injector.inject_context_di import autowire_fn, InjectionDescriptor, \
     InjectionType
 from python_util.logger.logger import LoggerFacade
-
-from flask import Flask, request
 
 app = Flask(__name__)
 
