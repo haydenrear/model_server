@@ -1,2 +1,0 @@
-serialization:
-  torch_serialize_base_out_dir: '/Users/hayde/IdeaProjects/drools/drools_py/work/data/save_torch'

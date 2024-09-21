@@ -1,5 +1,0 @@
-INPUT_IDS = 'input_ids'
-ATTENTION_MASK = 'attention_mask'
-DECORATED_DATA_METADATA = 'decorated_data_metadata'
-N = 'n'
-OUT_OF = 'out_of'
