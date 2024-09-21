@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  model-server:
+    image: localhost:5001/model-server-made
+    container_name: model-server-container
+    ports:
+      - "9991:9991"
+    environment:
+      HF_HOME: /.huggingface
+    volumes:
+      - type: bind
+        source: ./.models
+        target: /.huggingface

@@ -17,9 +17,9 @@ class ServerRunnerBoot:
 
 app = Flask(__name__)
 
+
 @boot_test(ctx=ServerRunnerBoot)
 class ServerRunnerTest(unittest.TestCase):
-
     http: HttpServerRunner
     server_runner: ServerRunner
 
@@ -31,10 +31,8 @@ class ServerRunnerTest(unittest.TestCase):
         self.server_runner = server_runner
         self.http.run()
 
-
     def test_server_runner_autowire(self):
         pass
-
 
 
 if __name__ == '__main__':
