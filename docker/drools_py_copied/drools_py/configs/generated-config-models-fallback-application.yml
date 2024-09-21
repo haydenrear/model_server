@@ -1,0 +1,135 @@
+config_models:
+  codegen_directory: '/Users/hayde/IdeaProjects/drools/feature-extractor/multi_modal/codegen'
+  config_option_properties:
+    K:
+      - config_option_type: 'GraphParserK'
+        config_option_parent: "K"
+        config_option_default_value: 8
+        config_option_value_type: 'int'
+    LayerNormFirst:
+      - config_option_type: 'LayerNormFirstGraphReconstruction'
+        config_option_default_value: True
+        config_option_value_type: 'bool'
+      - config_option_type: 'LayerNormFirstFfn'
+        config_option_default_value: True
+        config_option_value_type: 'bool'
+    LayerNormEps:
+      - config_option_type: 'LayerNormEpsFfn'
+        config_option_default_value: 1e-5
+        config_option_value_type: 'float'
+    Dropout:
+      - config_option_type: 'DropoutFfn'
+        config_option_default_value: 0.0
+        config_option_value_type: 'float'
+    InDim:
+      - config_option_type: 'InDimRgat'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'InDimLinearLayer'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'InDimGat'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'InDimGraphNorm'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'InDimFfn'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'InDimRecursiveFish'
+        config_option_parent: "InDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'InDimGraphReconstruction'
+          - config_option_type: 'InDimAdjEvol'
+          - config_option_type: 'StructuralEmbeddingInDim'
+          - config_option_type: 'InDimGlobalHierarchicalStructure'
+          - config_option_type: 'InDimHierarchicalEmbedding'
+    EdgeDim:
+      - config_option_type: 'EdgeDimRecursiveFish'
+        config_option_parent: "EdgeDim"
+        config_option_default_value: 9216
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'EdgeDimAdjEvol'
+    OutDim:
+      - config_option_type: 'OutDimRgat'
+        config_option_parent: "OutDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'OutDimGat'
+        config_option_parent: "OutDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'OutDimLinearLayer'
+        config_option_parent: "OutDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'OutDimFfn'
+        config_option_parent: "OutDim"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+    EmbeddingSize:
+      - config_option_type: 'EmbeddingSizeFfn'
+        config_option_parent: "EmbeddingSize"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'EmbeddingSizeGatV2Layer'
+        config_option_parent: "EmbeddingSize"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+      - config_option_type: 'EmbeddingSizeAttn'
+        config_option_parent: "EmbeddingSize"
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'QuerySize'
+          - config_option_type: 'KeySize'
+          - config_option_type: 'ValueSize'
+      - config_option_type: 'RecursiveFishEmbeddingSize'
+        config_option_default_value: 10
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'EdgeEmbeddingSize'
+    NumAttnHeads:
+      - config_option_type: 'NumAttnHeadsGat'
+        config_option_parent: "NumAttnHeads"
+        config_option_default_value: 2
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'NumAttnHeadsGraphReconstructionGat'
+          - config_option_type: 'NumAttnHeadsStructuralEmbeddingGat'
+      - config_option_type: 'NumAttnHeadsRGat'
+        config_option_parent: "NumAttnHeads"
+        config_option_default_value: 2
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'NumAttnHeadsGraphReconstructionRGat'
+          - config_option_type: 'NumAttnHeadsStructuralEmbeddingRGat'
+      - config_option_type: 'NumAttnHeadsSelfAttn'
+        config_option_parent: "NumAttnHeads"
+        config_option_default_value: 2
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'NumAttnHeadsGraphReconstructionSelfAttn'
+    NumLayers:
+      - config_option_type: 'NumLayersGatV2Layer'
+        config_option_parent: "NumLayers"
+        config_option_default_value: 2
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'NumLayersGraphReconstructionGat'
+      - config_option_type: 'NumLayersGlobalAttention'
+        config_option_parent: "NumLayers"
+        config_option_default_value: 2
+        config_option_value_type: 'int'
+        create_subclasses:
+          - config_option_type: 'NumLayersGlobalSelfAttention'
+          - config_option_type: 'NumLayersGlobalCrossAttention'
