@@ -7,7 +7,3 @@ test_work/
 out/
 .models/
 build/
-docker/drools_py_copied
-docker/metadata_extractor_copied
-docker/python_di_copied
-docker/python_util_copied
