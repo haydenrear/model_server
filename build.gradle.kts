@@ -1,23 +1,33 @@
+import Com_hayden_docker_gradle.DockerContext;
+
 plugins {
     id("com.hayden.docker")
 }
 
-hayden_docker {
-    imageName = "localhost:5001/model-server"
-    contextDir = "${project.projectDir}/docker"
-    enable = "true"
+wrapDocker {
+    ctx = arrayOf(
+        DockerContext(
+            "localhost:5001/model-server",
+            "${project.projectDir}/docker",
+            "modelServer"
+        )
+    )
 }
 
-tasks.getByPath("dockerImage").dependsOn("copyLibs")
-tasks.getByPath("pushImage").dependsOn("copyLibs")
+afterEvaluate {
+    tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")
+    tasks.getByPath("pushImages").dependsOn("copyLibs")
 
-tasks.register("copyLibs") {
-    println("Copying libs.")
-    exec {
-        workingDir("docker")
-        commandLine("./build-docker.sh")
+    tasks.register("copyLibs") {
+        println("Copying libs.")
+        exec {
+            workingDir("docker")
+            commandLine("./build-docker.sh")
+        }
     }
 }
 
+
 dependencies {
+    project(":runner_code")
 }
