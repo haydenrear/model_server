@@ -27,7 +27,6 @@ afterEvaluate {
     }
 }
 
-
 dependencies {
     project(":runner_code")
 }
