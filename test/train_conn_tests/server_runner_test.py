@@ -17,6 +17,7 @@ from python_di.inject.profile_composite_injector.inject_context_di import autowi
 
 
 
+
 @test_booter(scan_root_module=ServerRunnerConfig)
 class ServerRunnerBoot:
     pass

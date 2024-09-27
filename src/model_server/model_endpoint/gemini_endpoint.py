@@ -71,7 +71,7 @@ class GeminiEndpoint(ModelEndpoint):
                                      inspect.currentframe().f_back.f_locals.values())])
             LoggerFacade.error(f"Could not generate content even after maximum number of tries with last exception: {exc}.")
             return {'data': "{" + f"""
-                "status": 503
+                "status": 503,
                 "message": "Failed to generate JSON content successfully after 5 tries.",
                 "exception": "{exc}"
             """ + "}"}
@@ -81,7 +81,8 @@ class GeminiEndpoint(ModelEndpoint):
         json_content = content.text
         middle_json = json_content.split('```json')
         if len(middle_json) == 1:
-            return middle_json[0]
+            json.loads(middle_json)
+            return middle_json
         else:
             replaced_value = middle_json[1].split('```')[0]
             json.loads(replaced_value)
