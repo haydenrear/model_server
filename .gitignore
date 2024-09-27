@@ -8,3 +8,4 @@ out/
 .models/
 build/
 .idea/httpRequests
+resources/application.yml
