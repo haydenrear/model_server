@@ -13,6 +13,11 @@ class HuggingfaceModelEndpoint(BaseModel):
     pipeline: dict[str, object]
     pipeline_kwargs: dict[str, object]
 
+class GeminiModelEndpoint(BaseModel):
+    gemini_model: str
+    model_endpoint: str
+    api_key: str
+
 
 @configuration_properties(
     prefix_name='model_server'
@@ -20,4 +25,5 @@ class HuggingfaceModelEndpoint(BaseModel):
 class ModelServerConfigProps(ConfigurationProperties):
     port: int
     host: str
-    hf_model_endpoint: dict[str, HuggingfaceModelEndpoint]
+    hf_model_endpoint: typing.Optional[dict[str, HuggingfaceModelEndpoint]]
+    gemini_model_endpoint: typing.Optional[dict[str, GeminiModelEndpoint]]

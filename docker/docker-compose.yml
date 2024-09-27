@@ -10,5 +10,5 @@ services:
       HF_HOME: /.huggingface
     volumes:
       - type: bind
-        source: ./.models
+        source: /Users/hayde/IdeaProjects/drools/model_server/.models
         target: /.huggingface

@@ -1,13 +1,20 @@
 import unittest
-from wsgiref.simple_server import server_version
 
 from flask import Flask
+
+import sys
+
+try:
+    sys.path.append("/Users/hayde/IdeaProjects/drools/model_server/src")
+except:
+    pass
 
 from model_server.train_conn.model_server_config import ServerRunnerConfig
 from model_server.train_conn.server_runner import ServerRunnerProvider, ServerRunner, HttpServerRunner
 from python_di.configs.bean import test_inject
 from python_di.configs.test import test_booter, boot_test
 from python_di.inject.profile_composite_injector.inject_context_di import autowire_fn
+
 
 
 @test_booter(scan_root_module=ServerRunnerConfig)
