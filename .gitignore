@@ -7,3 +7,4 @@ test_work/
 out/
 .models/
 build/
+.idea/httpRequests
