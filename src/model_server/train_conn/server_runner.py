@@ -16,13 +16,17 @@ from rsocket.routing.routing_request_handler import RoutingRequestHandler
 from rsocket.rsocket_server import RSocketServer
 from rsocket.transports.tcp import TransportTCP
 
+
 from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 from model_server.model_endpoint.model_endpoints import ModelEndpoint
 from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint
+from model_server.model_endpoint.gemini_endpoint import GeminiEndpoint
+
 from python_di.configs.component import component
 from python_di.inject.profile_composite_injector.inject_context_di import autowire_fn, InjectionDescriptor, \
     InjectionType
 from python_util.logger.logger import LoggerFacade
+from model_server.train_conn.server_config_props import GeminiModelEndpoint
 
 app = Flask(__name__)
 
@@ -104,7 +108,7 @@ class HttpServerRunnerProvider:
     def create_routes(self):
 
         for model_endpoints in self.base_embedding_models:
-            if isinstance(model_endpoints, HfEndpoint):
+            if isinstance(model_endpoints, HfEndpoint) or isinstance(model_endpoints, GeminiEndpoint):
                 continue
             LoggerFacade.info(f"Starting model endpoint {model_endpoints.endpoint}.")
 
@@ -112,10 +116,29 @@ class HttpServerRunnerProvider:
             def serve():
                 return model_endpoints.do_model(request.json)
 
-        for k, hf in self.model_server_props.hf_model_endpoint.items():
-            self.create_hf(e=hf)
+        if self.model_server_props.hf_model_endpoint:
+            for k, hf in self.model_server_props.hf_model_endpoint.items():
+                self.create_hf(e=hf)
+        if self.model_server_props.gemini_model_endpoint:
+            for k, hf in self.model_server_props.gemini_model_endpoint.items():
+                self.create_gemini(e=hf)
 
         self.did_create = True
+
+    @autowire_fn(
+        descr={
+            "e": InjectionDescriptor(InjectionType.Provided),
+            "gemini_endpoint": InjectionDescriptor(InjectionType.Dependency)
+        }
+    )
+    def create_gemini(self,
+                      e: GeminiModelEndpoint,
+                      gemini_endpoint: GeminiEndpoint):
+        gemini_endpoint.gemini = e
+
+        @app.route(e.model_endpoint, methods=['GET', 'POST'])
+        def serve():
+            return gemini_endpoint.do_model(request.json)
 
     @autowire_fn(
         descr={
