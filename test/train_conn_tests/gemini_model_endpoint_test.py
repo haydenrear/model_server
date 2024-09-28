@@ -50,18 +50,18 @@ class GeminiModelEndpointTest(unittest.TestCase):
             text: str
 
         self.gemini.gemini_model.generate_content = mock.MagicMock(return_value = Ret("hello"))
-        did_model = self.gemini.do_model({'prompt': 'hello'})
+        did_model = self.gemini({'prompt': 'hello'})
 
         assert did_model
         assert self.gemini
         loaded = json.loads(did_model['data'])
 
         assert loaded['status'] == 503
-        assert loaded['message'] == "Failed to generate JSON content successfully after 5 tries."
+        assert loaded['message'] == "Failed to generate content successfully after 5 tries."
         assert "the JSON object must be str" in loaded['exception']
 
         self.gemini.gemini_model.generate_content = mock.MagicMock(return_value = Ret("```json\n{ \"someKey\": \"someValue\" }```"))
-        did_model = self.gemini.do_model({'prompt': 'hello'})
+        did_model = self.gemini({'prompt': 'hello'})
 
         assert did_model
         assert self.gemini

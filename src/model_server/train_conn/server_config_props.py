@@ -1,3 +1,4 @@
+import enum
 import os
 import typing
 
@@ -13,10 +14,15 @@ class HuggingfaceModelEndpoint(BaseModel):
     pipeline: dict[str, object]
     pipeline_kwargs: dict[str, object]
 
+class ModelType(enum.Enum):
+    EMBEDDING = 0
+    GENERATIVE_LANGUAGE = 1
+
 class GeminiModelEndpoint(BaseModel):
     gemini_model: str
     model_endpoint: str
     api_key: str
+    model_type: ModelType = ModelType.GENERATIVE_LANGUAGE
 
 
 @configuration_properties(
