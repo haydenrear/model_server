@@ -2,7 +2,15 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/docker/drools_py_copied" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/metadata_extractor_copied" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/pasta" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/python_di_copied" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/python_util_copied" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/resources" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/src" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
