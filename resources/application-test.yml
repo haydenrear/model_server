@@ -1,0 +1,42 @@
+work_dir: "/Users/hayde/IdeaProjects/drools/model_server/work"
+#profiles: <- goes in application.yml
+#  active_profiles:
+#    main_profile:
+#      profile_name: test
+#      priority: 1000000
+#  default_profile:
+#    profile_name: test
+#    priority: 1000000
+env_factories:
+  factories:
+    test:
+      - factory: python_di.inject.context_builder.factory_ctx.FactoryCtx
+        lazy: "False"
+      - factory: python_di.inject.reflectable_ctx.ReflectableCtx
+        lazy: "False"
+      - factory: drools_py.inject.serialization_ctx.SerializationCtx
+        lazy: "False"
+model_server:
+  port: 9991
+  host: localhost
+#  hf_model_endpoint:
+#    code_llama:
+#      hf_model: code_llama
+#      model_endpoint: /code_llama
+#      pipeline:
+#        task: text-generation
+#        model: codellama/CodeLlama-7b-Instruct-hf
+#      pipeline_kwargs:
+#        return_text: True
+#        max_length: 20000
+  gemini_model_endpoint:
+    gemini_flash:
+      gemini_model: gemini-1.5-flash
+      model_endpoint: /gemini_flash_model
+      api_key: test
+      model_type: 1
+    gemini_embedding:
+      gemini_model: models/text-embedding-004
+      model_endpoint: /gemini_embedding
+      api_key: test
+      model_type: 0
