@@ -14,27 +14,31 @@ wrapDocker {
     )
 }
 
-afterEvaluate {
 
-    tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")
-    tasks.getByPath("pushImages").dependsOn("copyLibs")
+if (!project.hasProperty("disable-docker")) {
+    afterEvaluate {
 
-    tasks.register("copyLibs") {
-        println("Copying libs.")
-        exec {
-            workingDir("docker")
-            commandLine("./build.sh")
+        tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")
+        tasks.getByPath("pushImages").dependsOn("copyLibs")
+
+        tasks.register("copyLibs") {
+            println("Copying libs.")
+            exec {
+                workingDir("docker")
+                commandLine("./build.sh")
+            }
+        }
+
+        tasks.getByPath("pushImages").doLast {
+            exec {
+                workingDir("docker")
+                commandLine("./after-build.sh")
+            }
         }
     }
 
-    tasks.getByPath("pushImages").doLast {
-        exec {
-            workingDir("docker")
-            commandLine("./after-build.sh")
-        }
-    }
+
 }
-
 
 dependencies {
     project(":runner_code")
