@@ -1,0 +1,1 @@
+Uses custom injection framework with profiles. Sits as the Python Gateway to call different models, such as Huggingface, Google Gemini, etc, to produce embeddings and generate text for stuff like codegen.
