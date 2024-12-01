@@ -1,4 +1,5 @@
 import abc
+import json
 
 from python_util.logger.inspect_utils import walk_back_exc
 from python_util.logger.logger import LoggerFacade
@@ -13,6 +14,17 @@ class RetryableModel(abc.ABC):
     @abc.abstractmethod
     def parse_model_response(self, in_value):
         pass
+
+    @staticmethod
+    def parse_as_json(content):
+        json_content = content
+        middle_json = json_content.split('```json')
+        if len(middle_json) == 1:
+            return json.loads(middle_json)
+        else:
+            replaced_value = middle_json[1].split('```')[0].strip('\'')
+            return json.loads(replaced_value)
+
 
     def __call__(self, prompt_value, num_tries=0, max_tries=5):
         if num_tries < max_tries:

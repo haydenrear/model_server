@@ -36,7 +36,7 @@ from model_server.train_conn.server_config_props import ModelServerConfigProps, 
 
 
 @prototype_scope_bean(bindings=[ModelEndpoint])
-class GeminiEmbeddingEndpoint(ModelEndpoint, RetryableModel):
+class GeminiEmbeddingEndpoint(ModelEndpoint):
 
     @prototype_factory()
     def __init__(self, model_server_props: ModelServerConfigProps):
@@ -66,6 +66,3 @@ class GeminiEmbeddingEndpoint(ModelEndpoint, RetryableModel):
             input_data['title'] = 'Generate Embedding for Computer Code'
         return self.gemini_model(input_data)
 
-
-    def parse_model_response(self, in_value):
-        return in_value["embedding"]

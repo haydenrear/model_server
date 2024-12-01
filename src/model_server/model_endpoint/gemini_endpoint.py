@@ -40,15 +40,3 @@ class GeminiEndpoint(ModelEndpoint, RetryableModel):
     def parse_model_response(self, in_value):
         return self.parse_as_json(in_value)
 
-    @staticmethod
-    def parse_as_json(content):
-        json_content = content
-        middle_json = json_content.split('```json')
-        if len(middle_json) == 1:
-            json.loads(middle_json)
-            return middle_json
-        else:
-            replaced_value = middle_json[1].split('```')[0]
-            json.loads(replaced_value)
-            return replaced_value
-
