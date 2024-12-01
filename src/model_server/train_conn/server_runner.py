@@ -160,11 +160,17 @@ class HttpServerRunnerProvider:
     def create_ai_suite_chat(self,
                              e: AiSuiteModelEndpoint,
                              ai_suite: AiSuiteChatEndpoint):
-        LoggerFacade.info("Creating ai suite endpoint.")
+        LoggerFacade.info(f"Creating ai suite endpoint {e.model_endpoint} with unique function name.")
         ai_suite.ai_suite = e
-        @app.route(e.model_endpoint, methods=['GET', 'POST'])
-        def serve_ai_suite():
-            return ai_suite(request.json)
+        ai_suite = ai_suite
+        exec(f"""
+@app.route(e.model_endpoint, methods=['GET', 'POST'])
+def serve_ai_suite_{e.model_endpoint.strip('/')}():
+    return ai_suite(request.json)
+        """,
+             {'ai_suite': ai_suite,
+              'app': app, 'e': e,
+              'request': request})
 
     @autowire_fn(
         descr={
