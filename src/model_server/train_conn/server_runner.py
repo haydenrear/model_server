@@ -16,6 +16,8 @@ from rsocket.routing.routing_request_handler import RoutingRequestHandler
 from rsocket.rsocket_server import RSocketServer
 from rsocket.transports.tcp import TransportTCP
 
+from aisuite.provider import ProviderType
+from model_server.model_endpoint.ai_suite_chat_endpoint import AiSuiteChatEndpoint
 from model_server.model_endpoint.gemini_embedding_endpoint import GeminiEmbeddingEndpoint
 # from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 # from model_server.model_endpoint.model_endpoints import ModelEndpoint
@@ -24,7 +26,8 @@ from model_server.model_endpoint.gemini_embedding_endpoint import GeminiEmbeddin
 # from model_server.train_conn.server_config_props import GeminiModelEndpoint
 from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 from model_server.model_endpoint.model_endpoints import ModelEndpoint
-from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint, ModelType
+from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint, ModelType, \
+    AiSuiteModelEndpoint
 from model_server.model_endpoint.gemini_endpoint import GeminiEndpoint
 from model_server.train_conn.server_config_props import GeminiModelEndpoint
 
@@ -112,15 +115,6 @@ class HttpServerRunnerProvider:
 
     def create_routes(self):
 
-        for model_endpoints in self.base_embedding_models:
-            if any([isinstance(model_endpoints, x) for x in [GeminiEndpoint, GeminiEmbeddingEndpoint, HfEndpoint]]):
-                continue
-            LoggerFacade.info(f"Starting model endpoint {model_endpoints.endpoint}.")
-
-            @app.route(model_endpoints.endpoint, methods=['GET', 'POST'])
-            def serve():
-                return model_endpoints.do_model(request.json)
-
         if self.model_server_props.hf_model_endpoint:
             for k, hf in self.model_server_props.hf_model_endpoint.items():
                 self.create_hf(e=hf)
@@ -130,6 +124,14 @@ class HttpServerRunnerProvider:
                     self.create_gemini(e=hf)
                 else:
                     self.create_gemini_embedding(e=hf)
+        if self.model_server_props.ai_suite_model_endpoint:
+            for k, hf in self.model_server_props.ai_suite_model_endpoint.items():
+                if hf.provider_type == ProviderType.CHAT:
+                    self.create_ai_suite_chat(e=hf)
+                elif hf.provider_type == ProviderType.EMBEDDING:
+                    pass
+                    # self.create_ai_suite_chat(e=hf)
+
 
         self.did_create = True
 
@@ -147,7 +149,22 @@ class HttpServerRunnerProvider:
 
         @app.route(e.model_endpoint, methods=['GET', 'POST'])
         def serve_embedding():
-            return gemini_endpoint(request.json)
+            return gemini_endpoint.do_model(request.json)
+
+    @autowire_fn(
+        descr={
+            "e": InjectionDescriptor(InjectionType.Provided),
+            "ai_suite": InjectionDescriptor(InjectionType.Dependency)
+        }
+    )
+    def create_ai_suite_chat(self,
+                             e: AiSuiteModelEndpoint,
+                             ai_suite: AiSuiteChatEndpoint):
+        LoggerFacade.info("Creating ai suite endpoint.")
+        ai_suite.ai_suite = e
+        @app.route(e.model_endpoint, methods=['GET', 'POST'])
+        def serve_ai_suite():
+            return ai_suite(request.json)
 
     @autowire_fn(
         descr={
@@ -161,7 +178,7 @@ class HttpServerRunnerProvider:
         gemini_endpoint.gemini = e
 
         @app.route(e.model_endpoint, methods=['GET', 'POST'])
-        def serve():
+        def serve_gemini():
             return gemini_endpoint(request.json)
 
     @autowire_fn(
@@ -178,6 +195,7 @@ class HttpServerRunnerProvider:
         @app.route(e.model_endpoint, methods=['GET', 'POST'])
         def serve():
             return hf_model_endpoint.do_model(request.json)
+
 
 
 @component()

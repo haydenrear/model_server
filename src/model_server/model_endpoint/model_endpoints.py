@@ -10,8 +10,7 @@ from python_di.inject.profile_composite_injector.composite_injector import profi
 OutT = typing.TypeVar("OutT", covariant=True, bound=ToJsonClass)
 InT = typing.TypeVar("InT", covariant=True, bound=FromJsonClass)
 
-
-class ModelEndpoint(abc.ABC, typing.Generic[InT, OutT]):
+class GenericModelEndpoint(abc.ABC, typing.Generic[InT, OutT]):
     """
     Any embedding to numpy array such as tokenization or ML embedding.
     """
@@ -26,7 +25,23 @@ class ModelEndpoint(abc.ABC, typing.Generic[InT, OutT]):
         pass
 
 
-class PytorchModelEndpoint(ModelEndpoint[InT, OutT], torch.nn.Module, abc.ABC):
+class ModelEndpoint(typing.Generic[OutT], GenericModelEndpoint[dict[str, ...], OutT], abc.ABC):
+    """
+    Any embedding to numpy array such as tokenization or ML embedding.
+    """
+
+    @abc.abstractmethod
+    def do_model(self, input_data: dict[str, ...]) -> OutT:
+        pass
+
+    @property
+    @abc.abstractmethod
+    def endpoint(self) -> str:
+        pass
+
+
+
+class PytorchModelEndpoint(GenericModelEndpoint[InT, OutT], torch.nn.Module, abc.ABC):
 
     @abc.abstractmethod
     def convert_to(self, input_data: InT) -> torch.Tensor:

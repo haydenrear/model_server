@@ -1,11 +1,11 @@
 work_dir: "/Users/hayde/IdeaProjects/drools/model_server/work"
-#profiles: <- goes in application.yml
+profiles:
 #  active_profiles:
 #    main_profile:
-#      profile_name: test
+#      profile_name: main_profile
 #      priority: 1000000
 #  default_profile:
-#    profile_name: test
+#    profile_name: main_profile
 #    priority: 1000000
 env_factories:
   factories:
@@ -40,3 +40,16 @@ model_server:
       model_endpoint: /gemini_embedding
       api_key: test
       model_type: 0
+  ai_suite_model_endpoint:
+    gemini_flash:
+      provider_type: CHAT
+      gemini_model: gemini-1.5-flash
+      model_endpoint: /ai_suite_gemini_flash_model
+      api_key: test
+      provider_key: googlegenai
+    gemini_embedding:
+      provider_type: EMBEDDING
+      gemini_model: text-embedding-005
+      model_endpoint: /ai_suite_gemini_embedding
+      api_key: test
+      provider_key: googlegenai
