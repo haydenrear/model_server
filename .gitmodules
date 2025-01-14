@@ -1,0 +1,3 @@
+[submodule "pasta"]
+	path = pasta
+	url = ./docker/pasta
