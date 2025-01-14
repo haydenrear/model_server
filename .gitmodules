@@ -1,0 +1,3 @@
+[submodule "docker/pasta"]
+	path = docker/pasta
+	url = https://github.com/google/pasta.git
