@@ -22,3 +22,12 @@ Content-Type: application/json
     {"role":  "system", "content":  "Please create a git commit in JSON response of the form { 'commitDiffs': [ {'commitDiffType': 'ADD', 'commitDiffContent': 'import lib'} ] }\n\nThis git commit will be for the following Commit message: import lib. Please include the json within delimiters ```json at the beginning and ``` at the end."}
   ]
 }
+
+###
+POST http://localhost:9991/ai_suite_gemini_embedding
+Content-Type: application/json
+
+{
+  "to_embed":  "Try to embed this!.",
+  "model": "text-embedding-004"
+}

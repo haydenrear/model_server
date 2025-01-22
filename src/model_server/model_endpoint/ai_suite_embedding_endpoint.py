@@ -36,14 +36,22 @@ class AiSuiteEmbeddingEndpoint(ModelEndpoint):
     @ai_suite.setter
     def ai_suite(self, ai_suite: typing.Optional[AiSuiteModelEndpoint]):
         self._ai_suite = ai_suite
-        self.provider = ProviderFactory.create_chat_provider(ai_suite.provider_key, ai_suite)
+        self.provider = ProviderFactory.create_embedding_provider(ai_suite.provider_key, ai_suite.__dict__)
 
     def do_model(self, input_data: dict[str, ...]):
         messages = input_data['to_embed']
-        model = input_data['model']
+        model = self.ai_suite.model
+        if 'model' in input_data.keys():
+            model = input_data['model']
         if isinstance(self.provider, EmbeddingProvider):
-            return self.provider.embedding_create(model, messages)
+            return self.provider.embedding_create(messages, model)
         elif isinstance(self.provider, EmbeddingProviderInterface):
-            return self.provider.embedding_create(model, messages, **input_data)
+            del input_data['model']
+            created = self.provider.embedding_create(model=f"models/{model}", **input_data)
+            input_data['model'] = model
+            return created
 
         raise NotImplementedError
+
+    def __call__(self, input_data: dict[str, ...]):
+        return self.do_model(input_data)
