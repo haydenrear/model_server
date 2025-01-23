@@ -24,7 +24,7 @@ if (project.property("enable-docker")?.toString()?.toBoolean() == true) {
         tasks.register("copyLibs") {
             println("Copying libs.")
             exec {
-                workingDir("docker")
+                workingDir("model_server/docker")
                 commandLine("./build.sh")
             }
         }
