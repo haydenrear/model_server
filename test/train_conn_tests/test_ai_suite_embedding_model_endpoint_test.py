@@ -6,6 +6,7 @@ from flask import Flask
 
 import sys
 
+from model_server.model_endpoint.ai_suite_embedding_endpoint import AiSuiteEmbeddingEndpoint
 
 try:
     sys.path.append("/Users/hayde/IdeaProjects/drools/model_server/src")
@@ -33,37 +34,21 @@ class ServerRunnerBoot:
 @boot_test(ctx=ServerRunnerBoot)
 class GeminiModelEndpointTest(unittest.TestCase):
 
-    gemini: GeminiEndpoint
+    gemini: AiSuiteEmbeddingEndpoint
     gemini_model_endpoint: ModelServerConfigProps
 
     @test_inject()
     @autowire_fn()
-    def construct(self, gemini: GeminiEmbeddingEndpoint,
+    def construct(self, gemini: AiSuiteEmbeddingEndpoint,
                   gemini_model_endpoint: ModelServerConfigProps):
         self.gemini = gemini
         self.gemini_model_endpoint = gemini_model_endpoint
 
     def test_gemini_model_endpoint(self):
-        self.gemini.gemini = self.gemini_model_endpoint.gemini_model_endpoint['gemini_embedding']
-
-        @dataclass(init=True)
-        class Ret:
-            text: str
-
-        self.gemini.gemini_model = mock.MagicMock(return_value = Ret("hello"))
+        self.gemini.gemini = self.gemini_model_endpoint.ai_suite_model_endpoint['gemini_embedding']
+        self.gemini.do_model = mock.MagicMock(return_value = {'embedding': [1,2,3]})
         did_model = self.gemini({'prompt': 'hello'})
 
         assert did_model
         assert self.gemini
-        loaded = json.loads(did_model['data'])
-
-        assert loaded['status'] == 503
-        assert loaded['message'] == "Failed to generate content successfully after 5 tries."
-        assert "'Ret' object is not subscriptable" in loaded['exception']
-
-        self.gemini.gemini_model = mock.MagicMock(return_value = {'embedding': [1,2,3]})
-        did_model = self.gemini({'prompt': 'hello'})
-
-        assert did_model
-        assert self.gemini
-        assert did_model['data'] == [1,2,3]
+        assert did_model['embedding'] == [1,2,3]

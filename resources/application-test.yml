@@ -42,14 +42,20 @@ model_server:
       model_type: 0
   ai_suite_model_endpoint:
     gemini_flash:
-      provider_type: CHAT
-      gemini_model: gemini-1.5-flash
+      provider_type: Chat
+      model: gemini-1.5-flash
       model_endpoint: /ai_suite_gemini_flash_model
       api_key: test
       provider_key: googlegenai
     gemini_embedding:
-      provider_type: EMBEDDING
-      gemini_model: text-embedding-005
+      provider_type: Embedding
+      model: text-embedding-005
       model_endpoint: /ai_suite_gemini_embedding
+      api_key: test
+      provider_key: googlegenai
+    gemini_flash_validation:
+      provider_type: Validation
+      model: gemini-1.5-flash
+      model_endpoint: /ai_suite_gemini_flash_model_validation
       api_key: test
       provider_key: googlegenai

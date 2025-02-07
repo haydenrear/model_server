@@ -34,7 +34,7 @@ def copy_files(src_dir, dest_dir):
                     error_log.write("\n")
 
 
-copy_files(source_directory, destination_directory)
+# copy_files(source_directory, destination_directory)
 
 
 

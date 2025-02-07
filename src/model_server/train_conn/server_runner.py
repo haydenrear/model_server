@@ -19,6 +19,7 @@ from rsocket.transports.tcp import TransportTCP
 from aisuite.provider import ProviderType
 from model_server.model_endpoint.ai_suite_chat_endpoint import AiSuiteChatEndpoint
 from model_server.model_endpoint.ai_suite_embedding_endpoint import AiSuiteEmbeddingEndpoint
+from model_server.model_endpoint.ai_suite_validation_endpoint import AiSuiteValidationEndpoint
 from model_server.model_endpoint.gemini_embedding_endpoint import GeminiEmbeddingEndpoint
 # from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 # from model_server.model_endpoint.model_endpoints import ModelEndpoint
@@ -129,6 +130,8 @@ class HttpServerRunnerProvider:
             for k, hf in self.model_server_props.ai_suite_model_endpoint.items():
                 if hf.provider_type == ProviderType.CHAT:
                     self.create_ai_suite_chat(e=hf)
+                elif hf.provider_type == ProviderType.VALIDATION:
+                    self.create_ai_suite_chat_validation(e=hf)
                 elif hf.provider_type == ProviderType.EMBEDDING:
                     self.create_ai_suite_embedding(e=hf)
 
@@ -150,6 +153,27 @@ class HttpServerRunnerProvider:
         @app.route(e.model_endpoint, methods=['GET', 'POST'])
         def serve_embedding():
             return gemini_endpoint.do_model(request.json)
+
+    @autowire_fn(
+        descr={
+            "e": InjectionDescriptor(InjectionType.Provided),
+            "ai_suite": InjectionDescriptor(InjectionType.Dependency)
+        }
+    )
+    def create_ai_suite_chat_validation(self,
+                                        e: AiSuiteModelEndpoint,
+                                        ai_suite: AiSuiteValidationEndpoint):
+        LoggerFacade.info(f"Creating ai suite validation endpoint {e.model_endpoint} with unique function name.")
+        ai_suite.ai_suite = e
+        ai_suite = ai_suite
+        exec(f"""
+@app.route(e.model_endpoint, methods=['GET', 'POST'])
+def serve_ai_suite_{e.model_endpoint.strip('/')}():
+    return ai_suite(request.json)
+        """,
+             {'ai_suite': ai_suite,
+              'app': app, 'e': e,
+              'request': request})
 
     @autowire_fn(
         descr={

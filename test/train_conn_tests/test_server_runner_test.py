@@ -39,8 +39,8 @@ class ServerRunnerTest(unittest.TestCase):
         self.server_runner = server_runner
         self.http.run()
 
-    def test_server_runner_autowire(self):
-        pass
+    # def test_server_runner_autowire(self):
+    #     pass
 
 
 if __name__ == '__main__':

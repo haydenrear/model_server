@@ -30,8 +30,8 @@ class RetryableModel(abc.ABC):
         if num_tries < max_tries:
             if num_tries != 0:
                 LoggerFacade.info(f"Trying to generate content again - on {num_tries} try.")
-            content = self.do_model(prompt_value)
             try:
+                content = self.do_model(prompt_value)
                 LoggerFacade.debug("Loaded content from model.")
                 replaced_value = self.parse_model_response(content)
                 LoggerFacade.debug("Parsed content to response.")
@@ -42,8 +42,10 @@ class RetryableModel(abc.ABC):
         else:
             exc = ', '.join([i for i in walk_back_exc(num_frames_walk_back=8)])
             LoggerFacade.error(f"Could not generate content even after maximum number of tries with last exceptions: {exc}.")
-            return {'data': "{" + f"""
-                    "status": 503,
-                    "message": "Failed to generate content successfully after {num_tries} tries.",
-                    "exception": "{exc}"
-                """ + "}"}
+            return {
+                'data': {
+                    'status': 503,
+                    'message': f"Failed to generate content successfully after {num_tries} tries.",
+                    "exception": f"{exc}"
+                }
+            }
