@@ -41,8 +41,8 @@ class GeminiModelEndpointTest(unittest.TestCase):
     @autowire_fn()
     def construct(self, gemini: AiSuiteEmbeddingEndpoint,
                   gemini_model_endpoint: ModelServerConfigProps):
-        self.gemini = gemini
-        self.gemini_model_endpoint = gemini_model_endpoint
+        GeminiModelEndpointTest.gemini = gemini
+        GeminiModelEndpointTest.gemini_model_endpoint = gemini_model_endpoint
 
     def test_gemini_model_endpoint(self):
         self.gemini.gemini = self.gemini_model_endpoint.ai_suite_model_endpoint['gemini_embedding']

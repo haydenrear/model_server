@@ -52,8 +52,9 @@ class AiSuiteChatEndpointTest(unittest.TestCase):
     def construct(self,
                   ai_suite: AiSuiteChatEndpoint,
                   gemini_model_endpoint: ModelServerConfigProps):
-        self.ai_suite = ai_suite
-        self.model_server_props = gemini_model_endpoint
+        AiSuiteChatEndpointTest.ai_suite = ai_suite
+        AiSuiteChatEndpointTest.model_server_props = gemini_model_endpoint
+        print(self.model_server_props)
 
     def test_ai_suite_model_endpoint(self):
         self.ai_suite.ai_suite = self.model_server_props.ai_suite_model_endpoint.get('gemini_flash')

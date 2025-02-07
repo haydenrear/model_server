@@ -261,6 +261,7 @@ class HttpServerRunner:
     def run(self):
         self.server_runner_provider.create_routes()
         app.run(port=self.model_server_props.port, host=self.model_server_props.host)
+        LoggerFacade.info("Started flask app in non-prod.")
 
 
 async def run_http_server(server_port: int, host: str, cxn):

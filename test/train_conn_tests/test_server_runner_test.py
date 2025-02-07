@@ -1,8 +1,7 @@
+import sys
 import unittest
 
 from flask import Flask
-
-import sys
 
 try:
     sys.path.append("/Users/hayde/IdeaProjects/drools/model_server/src")
@@ -10,7 +9,7 @@ except:
     pass
 
 from model_server.train_conn.model_server_config import ServerRunnerConfig
-from model_server.train_conn.server_runner import ServerRunnerProvider, ServerRunner, HttpServerRunner
+from model_server.train_conn.server_runner import ServerRunner, HttpServerRunner
 from python_di.configs.bean import test_inject
 from python_di.configs.test import test_booter, boot_test
 from python_di.inject.profile_composite_injector.inject_context_di import autowire_fn
@@ -37,7 +36,7 @@ class ServerRunnerTest(unittest.TestCase):
                   server_runner: ServerRunner):
         self.http = http
         self.server_runner = server_runner
-        self.http.run()
+        # self.http.run()
 
     # def test_server_runner_autowire(self):
     #     pass
