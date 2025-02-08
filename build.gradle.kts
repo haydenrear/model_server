@@ -14,30 +14,43 @@ wrapDocker {
     )
 }
 
+val enableDocker = project.property("enable-docker")?.toString()?.toBoolean()?.or(false) ?: false
+val buildModelServer = project.property("build-model-server")?.toString()?.toBoolean()?.or(false) ?: false
 
-if (project.property("enable-docker")?.toString()?.toBoolean() == true) {
+println("enableDocker: $enableDocker, buildModelServer: $buildModelServer")
+
+if (enableDocker && buildModelServer) {
+
     afterEvaluate {
 
-        tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")
-        tasks.getByPath("pushImages").dependsOn("copyLibs")
+        tasks.getByPath("jar").finalizedBy("buildDocker")
+
+        tasks.getByPath("jar").doLast {
+            tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")
+            tasks.getByPath("pushImages").dependsOn("copyLibs")
+        }
+
+        tasks.register("buildDocker") {
+            dependsOn("bootJar", "modelServerDockerImage", "pushImages")
+        }
 
         tasks.register("copyLibs") {
             println("Copying libs.")
-            exec {
+            providers.exec {
                 workingDir("model_server/docker")
                 commandLine("./build.sh")
             }
         }
 
         tasks.getByPath("pushImages").doLast {
-            exec {
+            println("Pushing model server docker image.")
+            providers.exec {
                 workingDir("docker")
                 commandLine("./after-build.sh")
             }
         }
+
     }
-
-
 }
 
 dependencies {
