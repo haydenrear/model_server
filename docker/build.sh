@@ -16,4 +16,4 @@ cp -r ../src/model_server ./src/model_server
 mkdir resources || true
 cp application-docker.yml ./resources/application.yml
 cp ../docker.env ./docker.env
-cp ../requirements.txt ./requirements.txt
+cp ../requirements-docker.txt ./requirements.txt
