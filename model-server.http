@@ -16,3 +16,4 @@ Content-Type: application/json
   "to_embed":  "Try to embed this!.",
   "model": "text-embedding-004"
 }
+

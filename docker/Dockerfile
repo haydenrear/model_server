@@ -4,9 +4,10 @@ RUN cd /model_server_home
 WORKDIR model_server_home
 COPY ./requirements.txt /model_server_home/requirements.txt
 RUN pip install -r requirements.txt
-COPY ./src/model_server /model_server_home/model_server
+COPY ./src/model_server /model_server_home/
 COPY ./drools_py_copied /model_server_home/drools_py
 COPY ./python_di_copied /model_server_home/python_di
+COPY ./aisuite_copied /model_server_home/aisuite
 COPY ./python_util_copied /model_server_home/python_util
 COPY ./metadata_extractor_copied /model_server_home/metadata_extractor
 COPY ./pasta/pasta /model_server_home/pasta
@@ -17,4 +18,5 @@ RUN mkdir /model_server_home/work
 RUN mkdir /model_server_home/test_work
 RUN cd /model_server_home
 EXPOSE 9991
-CMD python3 -m model_server.main.model_server_main
+#CMD python3 -m model_server.main.model_server_main
+#CMD SLEEP 8888

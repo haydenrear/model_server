@@ -21,11 +21,6 @@ from model_server.model_endpoint.ai_suite_chat_endpoint import AiSuiteChatEndpoi
 from model_server.model_endpoint.ai_suite_embedding_endpoint import AiSuiteEmbeddingEndpoint
 from model_server.model_endpoint.ai_suite_validation_endpoint import AiSuiteValidationEndpoint
 from model_server.model_endpoint.gemini_embedding_endpoint import GeminiEmbeddingEndpoint
-# from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
-# from model_server.model_endpoint.model_endpoints import ModelEndpoint
-# from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint
-# from model_server.model_endpoint.gemini_endpoint import GeminiEndpoint
-# from model_server.train_conn.server_config_props import GeminiModelEndpoint
 from model_server.model_endpoint.huggingface_endpoints import HfEndpoint
 from model_server.model_endpoint.model_endpoints import ModelEndpoint
 from model_server.train_conn.server_config_props import ModelServerConfigProps, HuggingfaceModelEndpoint, ModelType, \
