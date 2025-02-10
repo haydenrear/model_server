@@ -7,7 +7,6 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/docker/drools_py_copied" />
       <excludeFolder url="file://$MODULE_DIR$/docker/metadata_extractor_copied" />
-      <excludeFolder url="file://$MODULE_DIR$/docker/pasta" />
       <excludeFolder url="file://$MODULE_DIR$/docker/python_di_copied" />
       <excludeFolder url="file://$MODULE_DIR$/docker/python_util_copied" />
       <excludeFolder url="file://$MODULE_DIR$/docker/resources" />
