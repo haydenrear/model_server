@@ -2,7 +2,7 @@ version: '3'
 
 services:
   model-server:
-    image: localhost:5001/model-server-made
+    image: ms
     container_name: model-server-container
     ports:
       - "9991:9991"

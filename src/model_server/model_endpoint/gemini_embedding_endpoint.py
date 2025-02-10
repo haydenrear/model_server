@@ -10,7 +10,6 @@ from fontTools.misc.plistlib import end_real
 from pasta.base.codegen_test import AutoFormatTest
 
 
-from docker.pasta.pasta.base.ast_utils import replace_child
 from python_di.configs.component import component
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers import AutoTokenizer

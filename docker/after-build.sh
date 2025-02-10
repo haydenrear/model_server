@@ -8,3 +8,5 @@ rm -rf ./src
 rm -rf ./resources
 rm ./docker.env
 rm ./requirements.txt
+rm application-docker.yml
+rm application-docker.yml-e

@@ -18,5 +18,4 @@ RUN mkdir /model_server_home/work
 RUN mkdir /model_server_home/test_work
 RUN cd /model_server_home
 EXPOSE 9991
-#CMD python3 -m model_server.main.model_server_main
-#CMD SLEEP 8888
+CMD python3 -m model_server.main.model_server_main

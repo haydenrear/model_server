@@ -4,3 +4,4 @@ python_di_copied/
 python_util_copied/
 src/
 resources/
+application-docker.yml*

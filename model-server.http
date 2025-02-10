@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:9991/ai_suite_gemini_embedding
+POST http://host.docker.local:9991/ai_suite_gemini_embedding
 Content-Type: application/json
 
 {
