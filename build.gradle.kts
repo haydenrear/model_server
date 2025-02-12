@@ -31,21 +31,21 @@ if (enableDocker && buildModelServer) {
         }
 
         tasks.register("buildDocker") {
-            dependsOn("bootJar", "modelServerDockerImage", "pushImages")
+            dependsOn("copyLibs", "bootJar", "modelServerDockerImage", "pushImages")
         }
 
         tasks.register("copyLibs") {
             println("Copying libs.")
-            providers.exec {
-                workingDir("model_server/docker")
+            exec {
+                workingDir(projectDir.resolve("docker"))
                 commandLine("./build.sh")
             }
         }
 
         tasks.getByPath("pushImages").doLast {
             println("Pushing model server docker image.")
-            providers.exec {
-                workingDir("docker")
+            exec {
+                workingDir(projectDir.resolve("docker"))
                 commandLine("./after-build.sh")
             }
         }
