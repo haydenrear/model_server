@@ -29,7 +29,7 @@ class AiSuiteRerankEndpoint(ModelEndpoint, RetryableModel):
     @prototype_factory()
     def __init__(self, model_server_props: ModelServerConfigProps):
         self.model_server_props: ModelServerConfigProps = model_server_props
-        self.provider: typing.Optional[ChatProvider] = None
+        self.provider: typing.Optional[RerankProvider] = None
         self._ai_suite: typing.Optional[AiSuiteModelEndpoint] = None
 
     @property
@@ -47,32 +47,22 @@ class AiSuiteRerankEndpoint(ModelEndpoint, RetryableModel):
         self.provider = ProviderFactory.create_rerank_provider(ai_suite.provider_key, ai_suite.__dict__)
 
 
-    def __call__(
-            self,
-            query: str,
-            docs: typing.Union[str, typing.List[str], rerankers.results.Document, typing.List[rerankers.results.Document]],
-            doc_ids: typing.Optional[typing.Union[typing.List[str], typing.List[int]]] = None,
-            metadata: typing.Optional[typing.List[dict]] = None,
-            **kwargs
-    ) -> rerankers.results.RankedResults:
-        return self.parse_model_response(self.do_model(query, docs, doc_ids, metadata, **kwargs))
+    def __call__(self, data: dict[str, ...], **kwargs) -> rerankers.results.RankedResults:
+        return self.parse_model_response(self.do_model(data, **kwargs))
 
-    def do_model(self,
-                 query: str,
-                 docs: typing.Union[str, typing.List[str], rerankers.results.Document, typing.List[rerankers.results.Document]],
-                 doc_ids: typing.Optional[typing.Union[typing.List[str], typing.List[int]]] = None,
-                 metadata: typing.Optional[typing.List[dict]] = None,
-                 **kwargs):
+    def do_model(self, data: dict[str, ...], **kwargs):
+        data = data['rerank_body']
         if isinstance(self.provider, RerankProvider):
-            return self.provider.rerank_create(self.ai_suite.model, **kwargs).rank(query, docs, doc_ids, metadata)
+            return self.provider.rerank_create(self.ai_suite.model, **kwargs)(data)
         elif isinstance(self.provider, RerankProviderInterface):
-            return self.provider.rerank_create(self.ai_suite.model, **kwargs).rank(query, docs, doc_ids, metadata)
+            return self.provider.rerank_create(self.ai_suite.model, **kwargs)(data)
 
         raise NotImplementedError
 
     def parse_model_response(self, in_value: RankedResults):
         results = {
-            r.rank: self._parse_json_doc(r.document, r.rank, r.score)  for i, r in enumerate(in_value.results)
+            r.rank: self._parse_json_doc(r.document, r.rank, r.score)
+            for i, r in enumerate(in_value.results)
         }
 
         return {
@@ -94,7 +84,7 @@ class AiSuiteRerankEndpoint(ModelEndpoint, RetryableModel):
         if 'score' not in parsed_doc.keys() or parsed_doc['score'] <= 0.0:
             self._add_value_if_exists(score, 'score', parsed_doc)
 
-        return {'document': parsed_doc }
+        return parsed_doc
 
     def _add_if_exists(self, r: rerankers.Document, key_to_add: str, to_add_to: dict[str, ...]):
         if hasattr(r, key_to_add):

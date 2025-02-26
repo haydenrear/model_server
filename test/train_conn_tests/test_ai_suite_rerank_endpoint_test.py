@@ -59,7 +59,7 @@ class AiSuiteRerankEndpointTest(unittest.TestCase):
         mock_client.ranking_config_path = mock.MagicMock(return_value = "")
         reranker = GooglecloudReranker("model", "project", "app_cred", mock_client)
         reranker.gen_ai = mock.MagicMock(return_value=Ret([ContentItem("hello") for i in range(10)]))
-        did_model = self.ai_suite(query="okay then...", docs=["hello" for i in range(20)], client=mock_client)
+        did_model = self.ai_suite({'rerank_body': {'query': "okay then...", 'docs':["hello" for i in range(20)]}}, client=mock_client)
 
         assert did_model
         assert self.ai_suite
@@ -68,8 +68,8 @@ class AiSuiteRerankEndpointTest(unittest.TestCase):
         assert len(loaded) == 20
 
         for i, (k, v) in enumerate(loaded.items()):
-            assert v['document']['doc_id'] == str(i)
-            assert v['document']['rank'] == i
-            assert v['document']['document_type'] == 'text'
-            assert v['document']['text'] == 'hello'
+            assert v['doc_id'] == str(i)
+            assert v['rank'] == i
+            assert v['document_type'] == 'text'
+            assert v['text'] == 'hello'
 

@@ -26,3 +26,20 @@ Content-Type: application/json
   "model": "text-embedding-004"
 }
 
+###
+POST http://localhost:9991/ai_suite_rerank
+Content-Type: application/json
+
+{
+  "query":  "Try to embed this!.",
+  "docs": [
+    {
+      "text": "ok",
+      "metadata": {"first":  "second"}
+    },
+    {
+      "text": "another"
+    }
+
+  ]
+}
