@@ -59,3 +59,10 @@ model_server:
       model_endpoint: /ai_suite_gemini_flash_model_validation
       api_key: test
       provider_key: googlegenai
+    google_genai_rerank:
+      provider_type: Rerank
+      model: semantic-ranker-512@latest
+      model_endpoint: /ai_suite_rerank
+      provider_key: googlecloud
+      application_credential: /Users/hayde/certs/cloud/google-gen-lang-key.json
+      project_id: gen-lang-client-0937262914

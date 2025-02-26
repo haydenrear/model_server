@@ -38,8 +38,8 @@ class ServerRunnerTest(unittest.TestCase):
         self.server_runner = server_runner
         # self.http.run()
 
-    # def test_server_runner_autowire(self):
-    #     pass
+    def test_server_runner_autowire(self):
+        self.http.server_runner_provider.create_routes()
 
 
 if __name__ == '__main__':

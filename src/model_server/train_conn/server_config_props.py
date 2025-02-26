@@ -3,53 +3,23 @@ import enum
 import os
 import typing
 
+from pydantic import Extra
 from pydantic.main import BaseModel
 
 from aisuite.provider import ProviderType
 from python_di.env.base_module_config_props import ConfigurationProperties
 from python_di.properties.configuration_properties_decorator import configuration_properties
 
+class AiSuiteModelType(enum.Enum):
+    AiSuiteGoogleVertexEndpoint = "AiSuiteGoogleVertexEndpoint"
+    AiSuiteGoogleGenEndpoint = "AiSuiteGoogleGenEndpoint"
+    AiSuiteGoogleCloudDiscoveryEndpoint = "AiSuiteGoogleCloudDiscoveryEndpoint"
+    AiSuiteHuggingfaceEndpoint = "AiSuiteHuggingfaceEndpoint"
+
+
 class AiSuiteModel(BaseModel, abc.ABC):
-    pass
-#     @property
-#     @abc.abstractmethod
-#     def model(self):
-#         return
-#
-#     @model.setter
-#     @abc.abstractmethod
-#     def model(self, model: str):
-#         pass
-#
-#     @property
-#     @abc.abstractmethod
-#     def model_endpoint(self):
-#         return
-#
-#     @model_endpoint.setter
-#     @abc.abstractmethod
-#     def model_endpoint(self, model_endpoint: str):
-#         pass
-#
-#     @property
-#     @abc.abstractmethod
-#     def provider_key(self):
-#         return
-#
-#     @provider_key.setter
-#     @abc.abstractmethod
-#     def provider_key(self, provider_key: str):
-#         pass
-#
-#     @property
-#     @abc.abstractmethod
-#     def provider_type(self):
-#         return
-#
-#     @provider_type.setter
-#     @abc.abstractmethod
-#     def provider_type(self, provider_key: str):
-#         pass
+    class Config:
+        extra = Extra.allow
 
 class AiSuiteGoogleVertexEndpoint(AiSuiteModel):
     provider_type: ProviderType
@@ -59,6 +29,7 @@ class AiSuiteGoogleVertexEndpoint(AiSuiteModel):
     model: str
     model_endpoint: str
     provider_key: str = 'googlevertex'
+    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleVertexEndpoint
 
 class AiSuiteGoogleGenEndpoint(AiSuiteModel):
     provider_key: str = 'googlegenai'
@@ -66,6 +37,16 @@ class AiSuiteGoogleGenEndpoint(AiSuiteModel):
     model_endpoint: str
     model: str
     api_key: str
+    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleGenEndpoint
+
+class AiSuiteGoogleCloudDiscoveryEndpoint(AiSuiteModel):
+    provider_key: str = 'googlegenai'
+    provider_type: ProviderType
+    model_endpoint: str
+    model: str
+    application_credential: str
+    project_id: str
+    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleCloudDiscoveryEndpoint
 
 class AiSuiteHuggingfaceEndpoint(AiSuiteModel):
     provider_key: str = 'huggingface'
@@ -73,6 +54,7 @@ class AiSuiteHuggingfaceEndpoint(AiSuiteModel):
     hf_token: str
     model_endpoint: str
     model: str
+    ai_suite_model_type = AiSuiteModelType.AiSuiteHuggingfaceEndpoint
 
 class HuggingfaceModelEndpoint(BaseModel):
     hf_model: str
@@ -80,8 +62,8 @@ class HuggingfaceModelEndpoint(BaseModel):
     pipeline: dict[str, object]
     pipeline_kwargs: dict[str, object]
 
-# will add the others ?
-AiSuiteModelEndpoint = typing.Union[AiSuiteGoogleVertexEndpoint, AiSuiteGoogleGenEndpoint, AiSuiteHuggingfaceEndpoint]
+
+AiSuiteModelEndpoint = typing.Union[AiSuiteGoogleVertexEndpoint, AiSuiteGoogleGenEndpoint, AiSuiteHuggingfaceEndpoint, AiSuiteGoogleCloudDiscoveryEndpoint]
 
 class ModelType(enum.Enum):
     EMBEDDING = 0
