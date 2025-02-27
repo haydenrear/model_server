@@ -31,15 +31,18 @@ POST http://localhost:9991/ai_suite_rerank
 Content-Type: application/json
 
 {
-  "query":  "Try to embed this!.",
-  "docs": [
-    {
-      "text": "ok",
-      "metadata": {"first":  "second"}
-    },
-    {
-      "text": "another"
-    }
-
-  ]
+  "rerank_body": {
+    "query": "Try to embed this!.",
+    "docs": [
+      {
+        "text": "ok",
+        "metadata": {
+          "first": "second"
+        }
+      },
+      {
+        "text": "another"
+      }
+    ]
+  }
 }
