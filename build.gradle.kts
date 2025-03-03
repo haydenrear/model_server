@@ -24,6 +24,7 @@ if (enableDocker && buildModelServer) {
     afterEvaluate {
 
         tasks.getByPath("jar").finalizedBy("buildDocker")
+        tasks.getByPath("jar").dependsOn("copyLibs")
 
         tasks.getByPath("jar").doLast {
             tasks.getByPath("modelServerDockerImage").dependsOn("copyLibs")

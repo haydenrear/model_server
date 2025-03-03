@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+
+docker container rm model-server-container || true
 ./build.sh
 docker build . -t ms
 ./after-build.sh

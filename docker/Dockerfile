@@ -1,7 +1,7 @@
 FROM python:3.10
 RUN mkdir /model_server_home
 RUN cd /model_server_home
-WORKDIR model_server_home
+WORKDIR /model_server_home
 COPY ./requirements.txt /model_server_home/requirements.txt
 RUN pip install -r requirements.txt
 COPY ./src/model_server /model_server_home/
@@ -17,5 +17,7 @@ COPY ./application-docker.yml /model_server_home/resources/application.yml
 RUN mkdir /model_server_home/work
 RUN mkdir /model_server_home/test_work
 RUN cd /model_server_home
-EXPOSE 9991
-CMD python3 -m model_server.main.model_server_main
+#EXPOSE 9991
+RUN pip install rerankers
+COPY ./run.sh ./run.sh
+CMD ["/bin/bash", "run.sh"]
