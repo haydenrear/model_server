@@ -17,7 +17,5 @@ COPY ./application-docker.yml /model_server_home/resources/application.yml
 RUN mkdir /model_server_home/work
 RUN mkdir /model_server_home/test_work
 RUN cd /model_server_home
-#EXPOSE 9991
-RUN pip install rerankers
 COPY ./run.sh ./run.sh
 CMD ["/bin/bash", "run.sh"]

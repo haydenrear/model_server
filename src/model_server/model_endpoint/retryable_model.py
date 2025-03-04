@@ -15,16 +15,51 @@ class RetryableModel(abc.ABC):
     def parse_model_response(self, in_value):
         pass
 
+
     @staticmethod
     def parse_as_json(content):
         json_content = content
         middle_json = json_content.split('```json')
         if len(middle_json) == 1:
-            return json.loads(middle_json)
+            json_value = middle_json[0]
+            json_value = RetryableModel.remove_ending_delim(json_value)
+            loaded_json = json.loads(json_value)
+            return loaded_json
         else:
-            replaced_value = middle_json[1].split('```')[0].strip('\'')
-            return json.loads(replaced_value)
+            json_value = middle_json[1]
+            json_value = RetryableModel.remove_ending_delim(json_value)
+            if '```java' in json_value:
+                all_json = RetryableModel.parse_by_language(json_value, 'java')
+            elif '```python' in json_value:
+                all_json = RetryableModel.parse_by_language(json_value, 'python')
+            else:
+                all_json = json_value
+            return json.loads(all_json)
 
+    @staticmethod
+    def remove_ending_delim(json_value):
+        if json_value.endswith('```'):
+            json_value = json_value[:-3]
+        return json_value
+
+    @staticmethod
+    def parse_by_language(json_value: str, language: str):
+        splitted_again = json_value.split("```" + language)
+        if len(splitted_again) == 1:
+            return splitted_again[0]
+
+        first_part_of_json = splitted_again[0]
+        json_value = splitted_again[1]
+        json_value = json_value.strip()
+        second_json_split_again = json_value.split('```')
+        json_value: str = second_json_split_again[0]
+        json_value = json_value.replace('\n', '\\n').replace('"', "\\\"")
+
+        if len(second_json_split_again) == 1:
+            return first_part_of_json + json_value
+        else:
+            last_part_of_json = second_json_split_again[1]
+            return first_part_of_json + json_value + last_part_of_json
 
     def __call__(self, prompt_value, num_tries=0, max_tries=5, last_exc = None):
         if num_tries < max_tries:
