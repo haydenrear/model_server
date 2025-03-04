@@ -26,15 +26,21 @@ class RetryableModel(abc.ABC):
             return json.loads(replaced_value)
 
 
-    def __call__(self, prompt_value, num_tries=0, max_tries=5):
+    def __call__(self, prompt_value, num_tries=0, max_tries=5, last_exc = None):
         if num_tries < max_tries:
             if num_tries != 0:
                 LoggerFacade.info(f"Trying to generate content again - on {num_tries} try.")
             try:
-                content = self.do_model(prompt_value)
+                if last_exc is not None:
+                    to_send = f'Failed to parse JSON response from model for the prompt at end of this request with exception\n\n{last_exc}\n\nPlease try to respond with valid JSON\n\n{prompt_value}'
+                    content = self.do_model(to_send)
+                else:
+                    content = self.do_model(prompt_value)
+
                 LoggerFacade.debug("Loaded content from model.")
                 replaced_value = self.parse_model_response(content)
                 LoggerFacade.debug("Parsed content to response.")
+
                 return {'data': replaced_value}
             except Exception as e:
                 LoggerFacade.warn(f"Failed to parse response to JSON: {e}")
