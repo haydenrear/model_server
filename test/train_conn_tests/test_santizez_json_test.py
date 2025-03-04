@@ -14,8 +14,43 @@ class TestSanitizeJson(unittest.TestCase):
 }
 ```
         """)
+
+
+        assert parsed
+        parsed = RetryableModel.parse_as_json("""
+        ```json
+{
+  "codeResult": {
+    "data": "```java\nimport java.io.IOException;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.nio.file.Paths;\nimport java.util.List;\nimport java.util.stream.Collectors;\n\npublic class GitDiffSearcher {\n\n    public static void main(String[] args) throws IOException {\n        // Replace with your project directory\n        Path projectDir = Paths.get(\"test_graph_next\");\n\n        // Get all files in the project directory\n        List<Path> files = Files.walk(projectDir)\n                .filter(Files::isRegularFile)\n                .collect(Collectors.toList());\n\n        // Filter files based on commit message (replace with your logic)\n        List<Path> relevantFiles = files.stream()\n                .filter(file -> file.getFileName().toString().contains(\"commit-diff-context\"))\n                .collect(Collectors.toList());\n\n        // Process relevant files (replace with your logic to extract diffs)\n        for (Path file : relevantFiles) {\n            String content = Files.readString(file);\n            // Extract diffs from content\n            System.out.println(\"File: \" + file.toString());\n            System.out.println(\"Content: \" + content);\n        }\n    }\n}\n```"
+  }
+}
+```
+""")
         assert parsed
 
-
-
+        to_parse_code = """
+        ```json
+{
+  "type": "code - add code identifier to specify to use code deserializer",
+  "codeResult": {
+    "data": [
+      {
+        "type": "file_change",
+        "toChange": "file:///Users/hayde/IdeaProjects/drools/src/test/java/com/hayden/test_graph/commit_diff_context/step_def/LlmValidationNextCommit.java",
+        "newContent": {
+          "type": "insert_content",
+          "linesToAdd": {
+            "start": 287,
+            "end": 287
+          },
+          "lines": [
+            "import com.hayden.test_graph.commit_diff_context.model.server.ModelServerValidationAiClient;"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+        """
 

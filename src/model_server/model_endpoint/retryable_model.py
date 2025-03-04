@@ -34,10 +34,12 @@ class RetryableModel(abc.ABC):
                 all_json = RetryableModel.parse_by_language(json_value, 'python')
             else:
                 all_json = json_value
-            return json.loads(all_json)
+            loaded_json = json.loads(all_json)
+            return loaded_json
 
     @staticmethod
     def remove_ending_delim(json_value):
+        json_value = json_value.strip()
         if json_value.endswith('```'):
             json_value = json_value[:-3]
         return json_value
@@ -53,7 +55,7 @@ class RetryableModel(abc.ABC):
         json_value = json_value.strip()
         second_json_split_again = json_value.split('```')
         json_value: str = second_json_split_again[0]
-        json_value = json_value.replace('\n', '\\n').replace('"', "\\\"")
+        json_value = json_value.replace('\\n', '\\\\n').replace('\n', '\\\n').replace('"', "\"")
 
         if len(second_json_split_again) == 1:
             return first_part_of_json + json_value
