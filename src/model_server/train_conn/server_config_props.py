@@ -3,7 +3,7 @@ import enum
 import os
 import typing
 
-from pydantic import Extra
+from pydantic import ConfigDict
 from pydantic.main import BaseModel
 
 from aisuite.provider import ProviderType
@@ -18,8 +18,7 @@ class AiSuiteModelType(enum.Enum):
 
 
 class AiSuiteModel(BaseModel, abc.ABC):
-    class Config:
-        extra = Extra.allow
+    model_config = ConfigDict(extra="allow")
 
 class AiSuiteGoogleVertexEndpoint(AiSuiteModel):
     provider_type: ProviderType
@@ -29,7 +28,7 @@ class AiSuiteGoogleVertexEndpoint(AiSuiteModel):
     model: str
     model_endpoint: str
     provider_key: str = 'googlevertex'
-    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleVertexEndpoint
+    ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteGoogleVertexEndpoint
 
 class AiSuiteGoogleGenEndpoint(AiSuiteModel):
     provider_key: str = 'googlegenai'
@@ -37,7 +36,7 @@ class AiSuiteGoogleGenEndpoint(AiSuiteModel):
     model_endpoint: str
     model: str
     api_key: str
-    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleGenEndpoint
+    ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteGoogleGenEndpoint
 
 class AiSuiteGoogleCloudDiscoveryEndpoint(AiSuiteModel):
     provider_key: str = 'googlegenai'
@@ -46,7 +45,7 @@ class AiSuiteGoogleCloudDiscoveryEndpoint(AiSuiteModel):
     model: str
     application_credential: str
     project_id: str
-    ai_suite_model_type = AiSuiteModelType.AiSuiteGoogleCloudDiscoveryEndpoint
+    ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteGoogleCloudDiscoveryEndpoint
 
 class AiSuiteHuggingfaceEndpoint(AiSuiteModel):
     provider_key: str = 'huggingface'
@@ -54,7 +53,7 @@ class AiSuiteHuggingfaceEndpoint(AiSuiteModel):
     hf_token: str
     model_endpoint: str
     model: str
-    ai_suite_model_type = AiSuiteModelType.AiSuiteHuggingfaceEndpoint
+    ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteHuggingfaceEndpoint
 
 class HuggingfaceModelEndpoint(BaseModel):
     hf_model: str
@@ -80,6 +79,6 @@ class GeminiModelEndpoint(BaseModel):
 class ModelServerConfigProps(ConfigurationProperties):
     port: int
     host: str
-    hf_model_endpoint: typing.Optional[dict[str, HuggingfaceModelEndpoint]]
-    gemini_model_endpoint: typing.Optional[dict[str, GeminiModelEndpoint]]
-    ai_suite_model_endpoint: typing.Optional[dict[str, AiSuiteModelEndpoint]]
+    hf_model_endpoint: typing.Optional[dict[str, HuggingfaceModelEndpoint]] = None
+    gemini_model_endpoint: typing.Optional[dict[str, GeminiModelEndpoint]] = None
+    ai_suite_model_endpoint: typing.Optional[dict[str, AiSuiteModelEndpoint]] = None
