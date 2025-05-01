@@ -9,13 +9,12 @@ profiles:
 #    priority: 1000000
 env_factories:
   factories:
-    test:
-      - factory: python_di.inject.context_builder.factory_ctx.FactoryCtx
-        lazy: "False"
-      - factory: python_di.inject.reflectable_ctx.ReflectableCtx
-        lazy: "False"
-      - factory: drools_py.inject.serialization_ctx.SerializationCtx
-        lazy: "False"
+    - factory: python_di.inject.context_builder.factory_ctx.FactoryCtx
+      lazy: "False"
+    - factory: python_di.inject.reflectable_ctx.ReflectableCtx
+      lazy: "False"
+    - factory: drools_py.inject.serialization_ctx.SerializationCtx
+      lazy: "False"
 model_server:
   port: 9991
   host: localhost
@@ -25,7 +24,7 @@ model_server:
 #      model_endpoint: /code_llama
 #      pipeline:
 #        task: text-generation
-#        model: codellama/CodeLlama-7b-Instruct-hf
+#        model: codellama/CodeLlama-7b-Instruct-h
 #      pipeline_kwargs:
 #        return_text: True
 #        max_length: 20000
