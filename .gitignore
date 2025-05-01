@@ -10,5 +10,4 @@ build/
 .idea/httpRequests
 resources/application.yml
 gen-lang-client-0937262914-df36823842a7.json
-.idea/**
 docker/aisuite_copied
