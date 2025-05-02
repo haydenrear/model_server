@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b04c47d1-3d29-4bfc-96d7-ce6b5c25d031" name="Changes" comment="sanitize json for java">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="b04c47d1-3d29-4bfc-96d7-ce6b5c25d031" name="Changes" comment="sanitize json for java" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -250,7 +248,7 @@
       <workItem from="1745244088237" duration="7771000" />
       <workItem from="1745431379934" duration="4919000" />
       <workItem from="1745703303785" duration="7670000" />
-      <workItem from="1745780397234" duration="18552000" />
+      <workItem from="1745780397234" duration="19240000" />
     </task>
     <task id="LOCAL-00001" summary="gemini">
       <option name="closed" value="true" />
@@ -396,7 +394,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745775445332</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="sanitize json for java">
+      <option name="closed" value="true" />
+      <created>1746141405978</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1746141405978</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
