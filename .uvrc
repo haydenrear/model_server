@@ -1,0 +1,28 @@
+[sources]
+pypi = "https://pypi.org/simple"
+
+[sync]
+editable = true
+
+[settings]
+prefer-binary = true
+# Don't use the system-wide Python installation
+isolate = true
+
+[cache]
+# Enable caching for faster installations
+enable = true
+# Keep cache for 30 days
+max-age = "30d"
+
+[resolver]
+# Use the latest compatible versions
+strategy = "eager"
+exclude-newer = false
+
+[python]
+# Default Python version if not specified elsewhere
+default-version = "3.10"
+
+[logging]
+level = "info"

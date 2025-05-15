@@ -3,6 +3,8 @@ test_work/
 **/__pycache__/**
 *.pyc
 .git.bfg-report/*
+.uv/
+.venv/
 
 out/
 .models/

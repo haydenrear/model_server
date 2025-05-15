@@ -1,3 +1,7 @@
+# NOTE: This requirements-docker.txt is maintained for legacy compatibility.
+# The project is transitioning to uv with dependencies managed in pyproject.toml.
+# See README_UV.md for more information on using uv with this project.
+
 entropy==0.1.5
 attrs==23.1.0
 injector==0.22.0
@@ -37,3 +41,7 @@ google-pasta==0.2.0
 google-resumable-media==2.7.2
 googleapis-common-protos==1.65.0
 rerankers==0.8.0
+langchain==0.3.24
+langchain-mcp-adapters==0.0.9
+langgraph==0.3.34
+langchain-ollama==0.3.2

@@ -3,7 +3,7 @@ import dataclasses
 
 import numpy as np
 
-from metadata_extractor.messaging.reflectable_media_component import FromJsonClass
+from python_util.json_to_from.base_json import FromJsonClass
 from python_util.numpy_utils.dtype_util import from_dtype_name
 
 

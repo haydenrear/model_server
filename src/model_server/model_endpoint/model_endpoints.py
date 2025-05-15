@@ -3,9 +3,7 @@ import typing
 
 import torch
 
-from metadata_extractor.messaging.reflectable_media_component import FromJsonClass, ToJsonClass
-from python_di.configs.component import component
-from python_di.inject.profile_composite_injector.composite_injector import profile_scope
+from python_util.json_to_from.base_json import FromJsonClass, ToJsonClass
 
 OutT = typing.TypeVar("OutT", covariant=True, bound=ToJsonClass)
 InT = typing.TypeVar("InT", covariant=True, bound=FromJsonClass)
