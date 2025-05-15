@@ -34,13 +34,11 @@ class ServerRunnerTest(unittest.TestCase):
     @autowire_fn()
     def construct(self, http: HttpServerRunner,
                   server_runner: ServerRunner):
-        self.http = http
-        self.server_runner = server_runner
+        ServerRunnerTest.http = http
+        ServerRunnerTest.server_runner = server_runner
         # self.http.run()
 
     def test_server_runner_autowire(self):
         self.http.server_runner_provider.create_routes()
 
 
-if __name__ == '__main__':
-    unittest.main()
