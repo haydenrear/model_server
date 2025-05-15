@@ -31,14 +31,14 @@ dependencies = [
     "google-auth==2.36.0",
     "google-auth-httplib2==0.2.0",
     "google-auth-oauthlib==1.0.0",
-    "google-cloud-aiplatform==1.71.1",
+#    "google-cloud-aiplatform==1.71.1",
     "google-cloud-bigquery==3.27.0",
     "google-cloud-core==2.4.1",
     "google-cloud-discoveryengine==0.13.6",
     "google-cloud-resource-manager==1.13.1",
     "google-cloud-storage==2.18.2",
     "google-crc32c==1.6.0",
-    "google-generativeai==0.8.2",
+    "google-generativeai==0.8.3",
     "google-pasta==0.2.0",
     "google-resumable-media==2.7.2",
     "googleapis-common-protos==1.65.0",
@@ -56,10 +56,10 @@ dependencies = [
 requires-python = ">=3.10"
 
 [tool.uv.sources]
-drools_py = { path = "../drools_py", editable = true }
-python_di = { path = "../python_di", editable = true }
-python_util = { path = "../python_util", editable = true }
-aisuite = { path = "../../ml/integrations/aisuite", editable = true }
+drools_py = { workspace = true }
+python_util = { workspace = true }
+python_di = { workspace = true }
+aisuite = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]
