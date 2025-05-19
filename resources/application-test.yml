@@ -1,12 +1,4 @@
 work_dir: "/Users/hayde/IdeaProjects/drools/model_server/work"
-profiles:
-#  active_profiles:
-#    main_profile:
-#      profile_name: main_profile
-#      priority: 1000000
-#  default_profile:
-#    profile_name: main_profile
-#    priority: 1000000
 env_factories:
   factories:
     - factory: python_di.inject.context_builder.factory_ctx.FactoryCtx
@@ -18,16 +10,6 @@ env_factories:
 model_server:
   port: 9991
   host: localhost
-#  hf_model_endpoint:
-#    code_llama:
-#      hf_model: code_llama
-#      model_endpoint: /code_llama
-#      pipeline:
-#        task: text-generation
-#        model: codellama/CodeLlama-7b-Instruct-h
-#      pipeline_kwargs:
-#        return_text: True
-#        max_length: 20000
   gemini_model_endpoint:
     gemini_flash:
       gemini_model: gemini-1.5-flash
