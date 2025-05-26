@@ -15,6 +15,7 @@ class AiSuiteModelType(enum.Enum):
     AiSuiteGoogleGenEndpoint = "AiSuiteGoogleGenEndpoint"
     AiSuiteGoogleCloudDiscoveryEndpoint = "AiSuiteGoogleCloudDiscoveryEndpoint"
     AiSuiteHuggingfaceEndpoint = "AiSuiteHuggingfaceEndpoint"
+    AiSuiteLangchainEndpoint = "AiSuiteLangchainEndpoint"
 
 
 class AiSuiteModel(BaseModel, abc.ABC):
@@ -29,6 +30,13 @@ class AiSuiteGoogleVertexEndpoint(AiSuiteModel):
     model_endpoint: str
     provider_key: str = 'googlevertex'
     ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteGoogleVertexEndpoint
+
+class AiSuiteLangchainEndpoint(AiSuiteModel):
+    provider_type: ProviderType
+    model_endpoint: str
+    model: typing.Optional[str] = None
+    provider_key: str = 'langchain'
+    ai_suite_model_type: AiSuiteModelType = AiSuiteModelType.AiSuiteLangchainEndpoint
 
 class AiSuiteGoogleGenEndpoint(AiSuiteModel):
     provider_key: str = 'googlegenai'
@@ -62,7 +70,8 @@ class HuggingfaceModelEndpoint(BaseModel):
     pipeline_kwargs: dict[str, object]
 
 
-AiSuiteModelEndpoint = typing.Union[AiSuiteGoogleVertexEndpoint, AiSuiteGoogleGenEndpoint, AiSuiteHuggingfaceEndpoint, AiSuiteGoogleCloudDiscoveryEndpoint]
+AiSuiteModelEndpoint = typing.Union[AiSuiteGoogleVertexEndpoint, AiSuiteGoogleGenEndpoint,
+                                    AiSuiteHuggingfaceEndpoint, AiSuiteGoogleCloudDiscoveryEndpoint, AiSuiteLangchainEndpoint]
 
 class ModelType(enum.Enum):
     EMBEDDING = 0

@@ -37,10 +37,14 @@ class AiSuiteChatEndpoint(ModelEndpoint, RetryableModel):
             serialized_tools = self.serialize_tools(tools)
             input_data["tools"] = serialized_tools
 
+        model = input_data.get('model')
+        if not model:
+            model = self.ai_suite.model
+
         if isinstance(self.provider, ChatProvider):
-            return self.parse_open_ai_chat_response(self.provider.chat_completions_create(self.ai_suite.model, **input_data))
+            return self.parse_open_ai_chat_response(self.provider.chat_completions_create(model, **input_data))
         elif isinstance(self.provider, ChatProviderInterface):
-            return self.parse_open_ai_chat_response(self.provider.chat_completion_create(self.ai_suite.model, **input_data))
+            return self.parse_open_ai_chat_response(self.provider.chat_completion_create(model, **input_data))
 
         return self._ai_suite.model_endpoint
 
